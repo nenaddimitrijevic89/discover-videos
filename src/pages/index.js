@@ -4,7 +4,7 @@ import styles from 'styles/Home.module.css'
 
 import NavBar from 'components/Nav/Navbar'
 import Banner from 'components/Banner/Banner'
-import Card from 'components/Card/Card'
+import SectionCards from 'components/Card/SectionCards'
 
 export default function Home() {
    return (
@@ -21,9 +21,9 @@ export default function Home() {
             subTitle="a very cute dog"
             imgUrl="/static/clifford.jpg"
          />
-         <Card imgUrl="/static/clifford.jpg" size="large" />
-         <Card imgUrl="/static/clifford.jpg" size="medium" />
-         <Card imgUrl="/static/clifford.jpg" size="small" />
+         <div className={styles.sectionWrapper}>
+            <SectionCards title="Disney" />
+         </div>
       </div>
    )
 }
