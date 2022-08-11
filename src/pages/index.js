@@ -7,6 +7,11 @@ import Banner from 'components/Banner/Banner'
 import SectionCards from 'components/Card/SectionCards'
 
 export default function Home() {
+   const disneyVideos = [
+      { imgUrl: '/static/clifford.jpg' },
+      { imgUrl: '/static/clifford.jpg' },
+      { imgUrl: '/static/clifford.jpg' },
+   ]
    return (
       <div className={styles.container}>
          <Head>
@@ -22,7 +27,9 @@ export default function Home() {
             imgUrl="/static/clifford.jpg"
          />
          <div className={styles.sectionWrapper}>
-            <SectionCards title="Disney" />
+            <SectionCards title="Disney" videos={disneyVideos} size="large" />
+            <SectionCards title="Productivity" videos={disneyVideos} size="medium" />
+            <SectionCards title="Athletics" videos={disneyVideos} size="small" />
          </div>
       </div>
    )
