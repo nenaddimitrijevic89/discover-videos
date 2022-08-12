@@ -11,6 +11,9 @@ export default function Home() {
       { imgUrl: '/static/clifford.jpg' },
       { imgUrl: '/static/clifford.jpg' },
       { imgUrl: '/static/clifford.jpg' },
+      { imgUrl: '/static/clifford.jpg' },
+      { imgUrl: '/static/clifford.jpg' },
+      { imgUrl: '/static/clifford.jpg' },
    ]
    return (
       <div className={styles.container}>
