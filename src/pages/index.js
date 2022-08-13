@@ -2,19 +2,15 @@ import Head from 'next/head'
 
 import styles from 'styles/Home.module.css'
 
+import { getVideos } from 'lib/videos'
+
 import NavBar from 'components/Nav/Navbar'
 import Banner from 'components/Banner/Banner'
 import SectionCards from 'components/Card/SectionCards'
 
 export default function Home() {
-   const disneyVideos = [
-      { imgUrl: '/static/clifford.jpg' },
-      { imgUrl: '/static/clifford.jpg' },
-      { imgUrl: '/static/clifford.jpg' },
-      { imgUrl: '/static/clifford.jpg' },
-      { imgUrl: '/static/clifford.jpg' },
-      { imgUrl: '/static/clifford.jpg' },
-   ]
+   const disneyVideos = getVideos()
+
    return (
       <div className={styles.container}>
          <Head>
