@@ -8,9 +8,7 @@ import NavBar from 'components/Nav/Navbar'
 import Banner from 'components/Banner/Banner'
 import SectionCards from 'components/Card/SectionCards'
 
-export default function Home() {
-   const disneyVideos = getVideos()
-
+export default function Home({ disneyVideos }) {
    return (
       <div className={styles.container}>
          <Head>
@@ -32,4 +30,12 @@ export default function Home() {
          </div>
       </div>
    )
+}
+
+export async function getServerSideProps() {
+   const disneyVideos = getVideos()
+
+   return {
+      props: { disneyVideos },
+   }
 }
