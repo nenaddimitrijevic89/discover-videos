@@ -33,7 +33,7 @@ export default function Home({ disneyVideos }) {
 }
 
 export async function getServerSideProps() {
-   const disneyVideos = getVideos()
+   const disneyVideos = await getVideos()
 
    return {
       props: { disneyVideos },
