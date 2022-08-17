@@ -5,6 +5,8 @@ import Image from 'next/image'
 
 import styles from 'styles/Login.module.css'
 
+import { magic } from 'lib/magic-link'
+
 const Login = () => {
    const [email, setEmail] = useState('')
    const [userMsg, setUserMsg] = useState('')
@@ -21,8 +23,14 @@ const Login = () => {
       e.preventDefault()
 
       if (email) {
-         if (email === 'nenad@gmail.com') {
-            router.push('/')
+         if (email === 'dimnen686@gmail.com') {
+            // router.push('/')
+            try {
+               const didToken = await magic.auth.loginWithMagicLink({ email })
+               console.log({ didToken })
+            } catch (err) {
+               console.error('Something went wrong logging in', err)
+            }
          } else {
             setUserMsg('Something went wrong logging in')
          }
