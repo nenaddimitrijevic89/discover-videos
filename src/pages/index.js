@@ -18,7 +18,7 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
          </Head>
 
          <div className={styles.main}>
-            <NavBar username="nenad@gmail.com" />
+            <NavBar />
             <Banner
                title="Clifford the red dog"
                subTitle="a very cute dog"
