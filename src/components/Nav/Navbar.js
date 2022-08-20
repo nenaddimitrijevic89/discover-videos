@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import Image from 'next/image'
 
 import { magic } from 'lib/magic-link'
@@ -18,7 +17,6 @@ const NavBar = () => {
          try {
             const { email } = await magic.user.getMetadata()
             if (email) {
-               console.log({ email })
                setUsername(email)
             }
          } catch (err) {
@@ -42,6 +40,20 @@ const NavBar = () => {
       e.preventDefault()
       setShowDropdown(!showDropdown)
    }
+
+   const handleLogout = async (e) => {
+      e.preventDefault()
+
+      try {
+         await magic.user.logout()
+         console.log(await magic.user.isLoggedIn())
+         router.push('/login')
+      } catch (err) {
+         console.error('Error logging out', err)
+         router.push('/login')
+      }
+   }
+
    return (
       <div className={styles.container}>
          <div className={styles.wrapper}>
@@ -78,9 +90,9 @@ const NavBar = () => {
                   {showDropdown && (
                      <div className={styles.navDropdown}>
                         <div>
-                           <Link href="/login">
-                              <a className={styles.linkName}>Sign out</a>
-                           </Link>
+                           <a className={styles.linkName} onClick={handleLogout}>
+                              Sign out
+                           </a>
                            <div className={styles.lineWrapper}></div>
                         </div>
                      </div>
