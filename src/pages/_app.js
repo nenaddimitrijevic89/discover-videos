@@ -8,20 +8,20 @@ import { magic } from 'lib/magic-link'
 import Loading from 'components/Loading/Loading'
 
 function MyApp({ Component, pageProps }) {
-   const [isLoading, setIsLoading] = useState(true)
+   const [isLoading, setIsLoading] = useState(false)
    const router = useRouter()
 
-   useEffect(() => {
-      const handleLoggedIn = async () => {
-         const isLoggedIn = await magic.user.isLoggedIn()
-         if (isLoggedIn) {
-            router.push('/')
-         } else {
-            router.push('/login')
-         }
-      }
-      handleLoggedIn()
-   }, [])
+   //  useEffect(() => {
+   //     const handleLoggedIn = async () => {
+   //        const isLoggedIn = await magic.user.isLoggedIn()
+   //        if (isLoggedIn) {
+   //           router.push('/')
+   //        } else {
+   //           router.push('/login')
+   //        }
+   //     }
+   //     handleLoggedIn()
+   //  }, [])
 
    useEffect(() => {
       const handleComplete = () => {
