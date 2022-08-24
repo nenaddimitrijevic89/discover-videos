@@ -24,7 +24,6 @@ const Video = ({ video }) => {
 
    return (
       <div className={styles.container}>
-         video page {router.query.videoId}
          <Modal
             isOpen={true}
             contentLabel="Watch the video"
@@ -65,8 +64,8 @@ const Video = ({ video }) => {
    )
 }
 
-export async function getStaticProps() {
-   const videoId = '4zH5iYM4wJo'
+export async function getStaticProps(context) {
+   const { videoId } = context.params
 
    const videoArray = await getYoutubeVideoById(videoId)
 
