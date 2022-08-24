@@ -1,15 +1,18 @@
-import videosData from 'data/videos'
+import videoTestData from 'data/videos'
+
+const fetchVideos = async (url) => {
+   const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
+   const BASE_URL = 'https://youtube.googleapis.com/youtube/v3'
+
+   const response = await fetch(`${BASE_URL}/${url}&maxResults=25&key=${YOUTUBE_API_KEY}`)
+   return await response.json()
+}
 
 export const getCommonVideos = async (url) => {
-   const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY
-
    try {
-      const BASE_URL = 'https://youtube.googleapis.com/youtube/v3'
+      const isDev = process.env.DEVELOPMENT
 
-      const response = await fetch(`${BASE_URL}/${url}&maxResults=25&key=${YOUTUBE_API_KEY}`)
-
-      const data = await response.json()
-
+      const data = isDev ? videoTestData : await fetchVideos(url)
       if (data?.error) {
          return []
       }

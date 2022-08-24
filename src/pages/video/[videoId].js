@@ -6,6 +6,7 @@ import clsx from 'classnames'
 import styles from 'styles/Video.module.css'
 
 import { getYoutubeVideoById } from 'lib/videos'
+import NavBar from 'components/Nav/Navbar'
 
 Modal.setAppElement('#__next')
 
@@ -24,6 +25,7 @@ const Video = ({ video }) => {
 
    return (
       <div className={styles.container}>
+         <NavBar />
          <Modal
             isOpen={true}
             contentLabel="Watch the video"
