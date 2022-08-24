@@ -5,6 +5,8 @@ import clsx from 'classnames'
 
 import styles from 'styles/Video.module.css'
 
+import { getYoutubeVideoById } from 'lib/videos'
+
 Modal.setAppElement('#__next')
 
 const Video = ({ video }) => {
@@ -12,7 +14,13 @@ const Video = ({ video }) => {
 
    const videoId = router.query.videoId
 
-   const { title, publishTime, description, channelTitle, viewCount } = video
+   const {
+      title,
+      publishTime,
+      description,
+      channelTitle,
+      statistics: { viewCount } = { viewCount: 0 },
+   } = video
 
    return (
       <div className={styles.container}>
@@ -58,17 +66,13 @@ const Video = ({ video }) => {
 }
 
 export async function getStaticProps() {
-   const video = {
-      title: 'Hi cute dog',
-      publishTime: '1990-01-01',
-      description: 'A big red dog that is super cute, can he get any bigger?',
-      channelTitle: 'Paramount Pictures',
-      viewCount: 10000,
-   }
+   const videoId = '4zH5iYM4wJo'
+
+   const videoArray = await getYoutubeVideoById(videoId)
 
    return {
       props: {
-         video,
+         video: videoArray.length > 0 ? videoArray[0] : {},
       },
       revalidate: 10,
    }
