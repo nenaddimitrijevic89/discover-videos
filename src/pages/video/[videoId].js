@@ -5,27 +5,27 @@ import clsx from 'classnames'
 
 import styles from 'styles/Video.module.css'
 
+import { getYoutubeVideoById } from 'lib/videos'
+import NavBar from 'components/Nav/Navbar'
+
 Modal.setAppElement('#__next')
 
-const Video = () => {
+const Video = ({ video }) => {
    const router = useRouter()
 
    const videoId = router.query.videoId
 
-   const video = {
-      title: 'Hi cute dog',
-      publishTime: '1990-01-01',
-      description:
-         'A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger? A big red dog that is super cute, can he get any bigger?',
-      channelTitle: 'Paramount Pictures',
-      viewCount: 10000,
-   }
-
-   const { title, publishTime, description, channelTitle, viewCount } = video
+   const {
+      title,
+      publishTime,
+      description,
+      channelTitle,
+      statistics: { viewCount } = { viewCount: 0 },
+   } = video
 
    return (
       <div className={styles.container}>
-         video page {router.query.videoId}
+         <NavBar />
          <Modal
             isOpen={true}
             contentLabel="Watch the video"
@@ -64,6 +64,32 @@ const Video = () => {
          </Modal>
       </div>
    )
+}
+
+export async function getStaticProps(context) {
+   const { videoId } = context.params
+
+   const videoArray = await getYoutubeVideoById(videoId)
+
+   return {
+      props: {
+         video: videoArray.length > 0 ? videoArray[0] : {},
+      },
+      revalidate: 10,
+   }
+}
+
+export async function getStaticPaths() {
+   const listOfVideos = ['mYfJxlgR2jw', '4zH5iYM4wJo', 'KCPEHsAViiQ']
+
+   const paths = listOfVideos.map((videoId) => ({
+      params: { videoId },
+   }))
+
+   return {
+      paths,
+      fallback: 'blocking',
+   }
 }
 
 export default Video

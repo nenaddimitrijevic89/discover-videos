@@ -20,7 +20,7 @@ const NavBar = () => {
                setUsername(email)
             }
          } catch (err) {
-            console.log('Error retrieving email: ', err)
+            console.error('Error retrieving email: ', err)
          }
       }
       getUsername()
