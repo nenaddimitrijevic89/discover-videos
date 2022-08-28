@@ -45,5 +45,3 @@ export async function startFetchMyQuery() {
    // do something great with this precious data
    console.log(data)
 }
-
-startFetchMyQuery()
