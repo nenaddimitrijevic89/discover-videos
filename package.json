@@ -11,6 +11,7 @@
       "ci:eslint": "eslint ."
    },
    "dependencies": {
+      "@magic-sdk/admin": "^1.4.1",
       "classnames": "^2.3.1",
       "framer-motion": "^7.0.0",
       "magic-sdk": "^9.0.0",
