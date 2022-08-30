@@ -38,8 +38,10 @@ export async function startFetchMyQuery() {
    const { errors, data } = await fetchMyQuery()
 
    if (errors) {
+      // handle those errors like a pro
       console.error(errors)
    }
 
+   // do something great with this precious data
    console.log(data)
 }
