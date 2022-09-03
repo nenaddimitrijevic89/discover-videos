@@ -14,7 +14,7 @@ export async function isNewUser(token, issuer) {
       `
 
    const response = await queryHasuraGQL(operationsDoc, 'isNewUser', { issuer }, token)
-   console.log({ response })
+   // console.log({ response })
    return response?.data?.users?.length === 0
 }
 
@@ -38,7 +38,7 @@ export async function createNewUser(token, metadata) {
       { email, issuer, publicAdress },
       token
    )
-   console.log({ response })
+   // console.log({ response })
    return response
 }
 
