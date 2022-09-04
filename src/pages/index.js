@@ -7,8 +7,10 @@ import { getVideos, getPopularVideos } from 'lib/videos'
 import NavBar from 'components/Nav/Navbar'
 import Banner from 'components/Banner/Banner'
 import SectionCards from 'components/Card/SectionCards'
+import { startFetchMyQuery } from 'lib/db/hasura'
 
 export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos }) {
+   startFetchMyQuery()
    return (
       <div className={styles.container}>
          <Head>
