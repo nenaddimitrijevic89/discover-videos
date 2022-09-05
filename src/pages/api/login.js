@@ -33,7 +33,7 @@ export default async function login(req, res) {
 
          if (isNewUserQuery) {
             const createNewUserMutation = await createNewUser(token, metadata)
-            // console.log({ createNewUserMutation })
+            console.log({ createNewUserMutation })
             res.send({ done: true, msg: 'is a new user' })
          } else {
             res.send({ done: true, msg: 'not a new user' })
