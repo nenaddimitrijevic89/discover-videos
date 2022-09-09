@@ -16,7 +16,7 @@ export async function isNewUser(token, issuer) {
       },
       token
    )
-   console.log({ response })
+
    return response?.data?.users?.length === 0
 }
 
@@ -44,7 +44,7 @@ export async function createNewUser(token, metadata) {
       },
       token
    )
-   console.log({ response })
+
    return response
 }
 
