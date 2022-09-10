@@ -44,7 +44,7 @@ export async function createNewUser(token, metadata) {
       },
       token
    )
-
+   console.log({ response })
    return response
 }
 
