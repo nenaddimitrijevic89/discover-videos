@@ -27,6 +27,7 @@ export default async function login(req, res) {
             },
             process.env.HASURA_JWT_SECRET_KEY
          )
+         console.log({ token })
 
          const isNewUserQuery = await isNewUser(token, metadata.issuer)
 
