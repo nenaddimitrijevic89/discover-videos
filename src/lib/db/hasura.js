@@ -1,6 +1,38 @@
-export async function findVideoIdByUser(token, userId, videoId) {
+export async function updateStats(token, { userId, videoId, favourited, watched }) {
+   const operationsDoc = `  
+        mutation updateStats($userId: String!, $videoId: String!, $favourited: Int!, $watched: Boolean!) {
+          update_stats(
+            where: {
+               userId: {_eq: $userId}, 
+               videoId: {_eq: $videoId}
+            }, 
+            _set: {
+               favourited: $favourited, 
+               watched: $watched
+            }) {
+            returning {
+              favourited
+              userId
+              videoId
+              watched
+            }
+         }
+      }
+   `
+
+   const response = queryHasuraGQL(
+      operationsDoc,
+      'updateStats',
+      { userId, videoId, favourited, watched },
+      token
+   )
+
+   return response
+}
+
+export async function findVideoIdByUserId(token, userId, videoId) {
    const operationsDoc = `
-   query findVideoIdByUser($userId: String!, $videoId: String!) {
+   query findVideoIdByUserId($userId: String!, $videoId: String!) {
       stats(where: {userId: {_eq: $userId}, videoId: {_eq: $videoId}}) {
          id
          userId
@@ -12,7 +44,7 @@ export async function findVideoIdByUser(token, userId, videoId) {
 `
    const response = await queryHasuraGQL(
       operationsDoc,
-      'findVideoIdByUser',
+      'findVideoIdByUserId',
       {
          userId,
          videoId,
@@ -20,7 +52,7 @@ export async function findVideoIdByUser(token, userId, videoId) {
       token
    )
 
-   return response
+   return response?.data?.stats?.length > 0
 }
 
 export async function isNewUser(token, issuer) {
