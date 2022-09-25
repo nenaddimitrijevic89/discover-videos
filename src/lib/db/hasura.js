@@ -1,3 +1,37 @@
+export async function insertStats(token, { userId, videoId, favourited, watched }) {
+   const operationsDoc = `
+      mutation insertStats($userId: String!, $videoId: String!, $favourited: Int!, $watched: Boolean!) {
+         insert_stats_one(
+            object: {
+               userId: $userId,
+               videoId: $videoId, 
+               favourited: $favourited, 
+               watched: $watched
+            }) {
+            favourited
+            id
+            userId
+            videoId
+            watched  
+         }
+      }
+   `
+
+   const response = queryHasuraGQL(
+      operationsDoc,
+      'insertStats',
+      {
+         userId,
+         videoId,
+         favourited,
+         watched,
+      },
+      token
+   )
+
+   return response
+}
+
 export async function updateStats(token, { userId, videoId, favourited, watched }) {
    const operationsDoc = `  
         mutation updateStats($userId: String!, $videoId: String!, $favourited: Int!, $watched: Boolean!) {
