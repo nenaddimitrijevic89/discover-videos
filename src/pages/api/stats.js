@@ -9,31 +9,34 @@ export default async function stats(req, res) {
          if (!token) {
             res.status(403).send({})
          } else {
-            const decodedToken = jwt.verify(token, process.env.HASURA_JWT_SECRET_KEY)
+            const { videoId, favourited, watched } = req.body
 
-            const videoId = req.query.videoId
-            const userId = decodedToken.issuer
+            if (videoId) {
+               const decodedToken = jwt.verify(token, process.env.HASURA_JWT_SECRET_KEY)
 
-            const doesStatsExist = await findVideoIdByUserId(token, userId, videoId)
-            if (doesStatsExist) {
-               // update it
-               const response = await updateStats(token, {
-                  userId,
-                  videoId,
-                  watched: false,
-                  favourited: 23,
-               })
-               console.log({ response })
-               res.send({ msg: 'updated', decodedToken, doesStatsExist, response })
-            } else {
-               // add it
-               const response = await insertStats(token, {
-                  userId,
-                  videoId,
-                  watched: false,
-                  favourited: 222,
-               })
-               res.send({ msg: 'added', decodedToken, doesStatsExist, response })
+               const userId = decodedToken.issuer
+
+               const doesStatsExist = await findVideoIdByUserId(token, userId, videoId)
+               if (doesStatsExist) {
+                  // update
+                  const response = await updateStats(token, {
+                     userId,
+                     videoId,
+                     watched,
+                     favourited,
+                  })
+                  console.log({ response })
+                  res.send({ msg: 'updated', response })
+               } else {
+                  // add
+                  const response = await insertStats(token, {
+                     userId,
+                     videoId,
+                     watched,
+                     favourited,
+                  })
+                  res.send({ msg: 'added', response })
+               }
             }
          }
       } catch (err) {
