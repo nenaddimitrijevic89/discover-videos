@@ -86,7 +86,7 @@ export async function findVideoIdByUserId(token, userId, videoId) {
       token
    )
 
-   return response?.data?.stats?.length > 0
+   return response?.data?.stats
 }
 
 export async function isNewUser(token, issuer) {

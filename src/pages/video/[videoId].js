@@ -15,11 +15,10 @@ Modal.setAppElement('#__next')
 
 const Video = ({ video }) => {
    const router = useRouter()
+   const videoId = router.query.videoId
 
    const [toggleLike, setToggleLike] = useState(false)
    const [toggleDislike, setToggleDislike] = useState(false)
-
-   const videoId = router.query.videoId
 
    const {
       title,
@@ -29,14 +28,35 @@ const Video = ({ video }) => {
       statistics: { viewCount } = { viewCount: 0 },
    } = video
 
-   const handleToggleDislike = () => {
-      setToggleDislike(!toggleDislike)
-      setToggleLike(toggleDislike)
+   const runRatingService = async (favourited) => {
+      return await fetch('/api/stats', {
+         method: 'POST',
+         body: JSON.stringify({
+            videoId,
+            favourited,
+         }),
+         headers: {
+            'Content-Type': 'application/json',
+         },
+      })
    }
 
-   const handleToggleLike = () => {
+   const handleToggleDislike = async () => {
+      setToggleDislike(!toggleDislike)
+      setToggleLike(toggleDislike)
+
+      const response = await runRatingService(0)
+
+      console.log('dislike', await response.json())
+   }
+
+   const handleToggleLike = async () => {
       setToggleLike(!toggleLike)
       setToggleDislike(toggleLike)
+
+      const response = await runRatingService(1)
+
+      console.log('like', await response.json())
    }
 
    return (
