@@ -3,20 +3,21 @@ import jwt from 'jsonwebtoken'
 import { findVideoIdByUserId, insertStats, updateStats } from 'lib/db/hasura'
 
 export default async function stats(req, res) {
-   if (req.method === 'POST') {
-      try {
-         const token = req.cookies.token
-         if (!token) {
-            res.status(403).send({})
-         } else {
-            const { videoId, favourited, watched } = req.body
+   try {
+      const token = req.cookies.token
+      if (!token) {
+         res.status(403).send({})
+      } else {
+         const { videoId, favourited, watched = true } = req.body
 
-            if (videoId) {
-               const decodedToken = jwt.verify(token, process.env.HASURA_JWT_SECRET_KEY)
+         if (videoId) {
+            const decodedToken = jwt.verify(token, process.env.HASURA_JWT_SECRET_KEY)
+            const userId = decodedToken.issuer
 
-               const userId = decodedToken.issuer
+            const findVideo = await findVideoIdByUserId(token, userId, videoId)
+            const doesStatsExist = findVideo?.length > 0
 
-               const doesStatsExist = await findVideoIdByUserId(token, userId, videoId)
+            if (req.method === 'POST') {
                if (doesStatsExist) {
                   // update
                   const response = await updateStats(token, {
@@ -25,7 +26,6 @@ export default async function stats(req, res) {
                      watched,
                      favourited,
                   })
-                  console.log({ response })
                   res.send({ msg: 'updated', response })
                } else {
                   // add
@@ -37,11 +37,18 @@ export default async function stats(req, res) {
                   })
                   res.send({ msg: 'added', response })
                }
+            } else {
+               if (doesStatsExist) {
+                  res.send(findVideo)
+               } else {
+                  res.status(404)
+                  res.send({ user: null, msg: 'Video not found!' })
+               }
             }
          }
-      } catch (err) {
-         console.error('Error ocured /stats', err)
-         res.status(500).send({ done: false, error: err?.message })
       }
+   } catch (err) {
+      console.error('Error ocured /stats', err)
+      res.status(500).send({ done: false, error: err?.message })
    }
 }
