@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import Modal from 'react-modal'
@@ -27,6 +27,26 @@ const Video = ({ video }) => {
       channelTitle,
       statistics: { viewCount } = { viewCount: 0 },
    } = video
+
+   useEffect(() => {
+      handleLikeDislikeService()
+   }, [])
+
+   const handleLikeDislikeService = async () => {
+      const response = await fetch(`/api/stats?videoId=${videoId}`, {
+         method: 'GET',
+      })
+      const data = await response.json()
+
+      if (data.length > 0) {
+         const favourited = data[0].favourited
+         if (favourited === 1) {
+            setToggleLike(true)
+         } else if (favourited === 0) {
+            setToggleDislike(true)
+         }
+      }
+   }
 
    const runRatingService = async (favourited) => {
       return await fetch('/api/stats', {
