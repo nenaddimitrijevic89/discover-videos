@@ -29,24 +29,23 @@ const Video = ({ video }) => {
    } = video
 
    useEffect(() => {
-      handleLikeDislikeService()
-   }, [])
+      const handleLikeDislikeService = async () => {
+         const response = await fetch(`/api/stats?videoId=${videoId}`, {
+            method: 'GET',
+         })
+         const data = await response.json()
 
-   const handleLikeDislikeService = async () => {
-      const response = await fetch(`/api/stats?videoId=${videoId}`, {
-         method: 'GET',
-      })
-      const data = await response.json()
-
-      if (data.length > 0) {
-         const favourited = data[0].favourited
-         if (favourited === 1) {
-            setToggleLike(true)
-         } else if (favourited === 0) {
-            setToggleDislike(true)
+         if (data.length > 0) {
+            const favourited = data[0].favourited
+            if (favourited === 1) {
+               setToggleLike(true)
+            } else if (favourited === 0) {
+               setToggleDislike(true)
+            }
          }
       }
-   }
+      handleLikeDislikeService()
+   }, [videoId])
 
    const runRatingService = async (favourited) => {
       return await fetch('/api/stats', {
