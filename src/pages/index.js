@@ -2,13 +2,19 @@ import Head from 'next/head'
 
 import styles from 'styles/Home.module.css'
 
-import { getVideos, getPopularVideos } from 'lib/videos'
+import { getVideos, getPopularVideos, getWatchItAgainVideos } from 'lib/videos'
 
 import NavBar from 'components/Nav/Navbar'
 import Banner from 'components/Banner/Banner'
 import SectionCards from 'components/Card/SectionCards'
 
-export default function Home({ disneyVideos, travelVideos, productivityVideos, popularVideos }) {
+export default function Home({
+   disneyVideos,
+   travelVideos,
+   productivityVideos,
+   popularVideos,
+   watchItAgainVideos,
+}) {
    return (
       <div className={styles.container}>
          <Head>
@@ -27,6 +33,7 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
             />
             <div className={styles.sectionWrapper}>
                <SectionCards title="Disney" videos={disneyVideos} size="large" />
+               <SectionCards title="Watch it again" videos={watchItAgainVideos} size="small" />
                <SectionCards title="Travel" videos={travelVideos} size="medium" />
                <SectionCards title="Productivity" videos={productivityVideos} size="small" />
                <SectionCards title="Popular" videos={popularVideos} size="small" />
@@ -37,6 +44,11 @@ export default function Home({ disneyVideos, travelVideos, productivityVideos, p
 }
 
 export async function getServerSideProps() {
+   const userId = 'did:ethr:0xA917b22eF8FE0E4ccB858ee19BDbe145e5048d29'
+   const token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJkaWQ6ZXRocjoweEE5MTdiMjJlRjhGRTBFNGNjQjg1OGVlMTlCRGJlMTQ1ZTUwNDhkMjkiLCJwdWJsaWNBZGRyZXNzIjoiMHhBOTE3YjIyZUY4RkUwRTRjY0I4NThlZTE5QkRiZTE0NWU1MDQ4ZDI5IiwiZW1haWwiOiJkaW1uZW42ODZAZ21haWwuY29tIiwib2F1dGhQcm92aWRlciI6bnVsbCwicGhvbmVOdW1iZXIiOm51bGwsImlhdCI6MTY2NDM4MjIzOCwiZXhwIjoxNjY0OTg3MDM4LCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciIsImFkbWluIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS11c2VyLWlkIjoiZGlkOmV0aHI6MHhBOTE3YjIyZUY4RkUwRTRjY0I4NThlZTE5QkRiZTE0NWU1MDQ4ZDI5In19.ZHFkqv54xiDAVeJNXoAyx6-0kdbYmWd3gMlisbfDbSE'
+
+   const watchItAgainVideos = await getWatchItAgainVideos(userId, token)
    const disneyVideos = await getVideos('disney trailer')
    const travelVideos = await getVideos('travel')
    const productivityVideos = await getVideos('productivity')
@@ -44,6 +56,6 @@ export async function getServerSideProps() {
    const popularVideos = await getPopularVideos()
 
    return {
-      props: { disneyVideos, travelVideos, productivityVideos, popularVideos },
+      props: { disneyVideos, travelVideos, productivityVideos, popularVideos, watchItAgainVideos },
    }
 }
