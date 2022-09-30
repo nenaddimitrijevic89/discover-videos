@@ -24,7 +24,7 @@ export const getCommonVideos = async (url) => {
          const snippet = item.snippet
          return {
             title: snippet?.title,
-            imgUrl: snippet.thumbnails.high.url,
+            imgUrl: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
             id,
             description: snippet.description,
             publishTime: snippet.publishedAt,
@@ -61,5 +61,6 @@ export const getWatchItAgainVideos = async (userId, token) => {
 
    return videos.map((video) => ({
       id: video.videoId,
+      imgUrl: `https://i.ytimg.com/vi/${video.videoId}/maxresdefault.jpg`,
    }))
 }
