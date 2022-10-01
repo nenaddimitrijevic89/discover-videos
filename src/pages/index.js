@@ -3,6 +3,7 @@ import Head from 'next/head'
 import styles from 'styles/Home.module.css'
 
 import { getVideos, getPopularVideos, getWatchItAgainVideos } from 'lib/videos'
+import { verifyToken } from 'lib/utils'
 
 import NavBar from 'components/Nav/Navbar'
 import Banner from 'components/Banner/Banner'
@@ -43,10 +44,19 @@ export default function Home({
    )
 }
 
-export async function getServerSideProps() {
-   const userId = 'did:ethr:0xA917b22eF8FE0E4ccB858ee19BDbe145e5048d29'
-   const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJkaWQ6ZXRocjoweEE5MTdiMjJlRjhGRTBFNGNjQjg1OGVlMTlCRGJlMTQ1ZTUwNDhkMjkiLCJwdWJsaWNBZGRyZXNzIjoiMHhBOTE3YjIyZUY4RkUwRTRjY0I4NThlZTE5QkRiZTE0NWU1MDQ4ZDI5IiwiZW1haWwiOiJkaW1uZW42ODZAZ21haWwuY29tIiwib2F1dGhQcm92aWRlciI6bnVsbCwicGhvbmVOdW1iZXIiOm51bGwsImlhdCI6MTY2NDM4MjIzOCwiZXhwIjoxNjY0OTg3MDM4LCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciIsImFkbWluIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS11c2VyLWlkIjoiZGlkOmV0aHI6MHhBOTE3YjIyZUY4RkUwRTRjY0I4NThlZTE5QkRiZTE0NWU1MDQ4ZDI5In19.ZHFkqv54xiDAVeJNXoAyx6-0kdbYmWd3gMlisbfDbSE'
+export async function getServerSideProps(context) {
+   const token = context.req ? context.req.cookies.token : null
+   const userId = await verifyToken(token)
+
+   if (!userId) {
+      return {
+         props: {},
+         redirect: {
+            destination: '/login',
+            permanent: false,
+         },
+      }
+   }
 
    const watchItAgainVideos = await getWatchItAgainVideos(userId, token)
    const disneyVideos = await getVideos('disney trailer')
