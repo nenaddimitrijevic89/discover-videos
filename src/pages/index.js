@@ -3,7 +3,7 @@ import Head from 'next/head'
 import styles from 'styles/Home.module.css'
 
 import { getVideos, getPopularVideos, getWatchItAgainVideos } from 'lib/videos'
-import { verifyToken } from 'lib/utils'
+import { useRedirectUser as redirectUser } from 'hooks/useRedirectUser'
 
 import NavBar from 'components/Nav/Navbar'
 import Banner from 'components/Banner/Banner'
@@ -45,18 +45,7 @@ export default function Home({
 }
 
 export async function getServerSideProps(context) {
-   const token = context.req ? context.req.cookies.token : null
-   const userId = await verifyToken(token)
-
-   if (!userId) {
-      return {
-         props: {},
-         redirect: {
-            destination: '/login',
-            permanent: false,
-         },
-      }
-   }
+   const { userId, token } = await redirectUser(context)
 
    const watchItAgainVideos = await getWatchItAgainVideos(userId, token)
    const disneyVideos = await getVideos('disney trailer')
