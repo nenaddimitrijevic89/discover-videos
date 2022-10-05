@@ -9,6 +9,8 @@ import styles from './Navbar.module.css'
 const NavBar = () => {
    const [showDropdown, setShowDropdown] = useState(false)
    const [username, setUsername] = useState('')
+   const [didToken, setDidToken] = useState('')
+   console.log({ didToken })
 
    const router = useRouter()
 
@@ -17,9 +19,10 @@ const NavBar = () => {
          try {
             const { email } = await magic.user.getMetadata()
             const didToken = await magic.user.getIdToken()
-            // console.log({ didToken })
+
             if (email) {
                setUsername(email)
+               setDidToken(didToken)
             }
          } catch (err) {
             console.error('Error retrieving email: ', err)
@@ -47,8 +50,15 @@ const NavBar = () => {
       e.preventDefault()
 
       try {
-         await magic.user.logout()
-         router.push('/login')
+         const response = await fetch('/api/logout', {
+            method: 'POST',
+            headers: {
+               Authorization: `Bearer ${didToken}`,
+               'Content-Type': 'application/json',
+            },
+         })
+
+         await response.json()
       } catch (err) {
          console.error('Error logging out', err)
          router.push('/login')
