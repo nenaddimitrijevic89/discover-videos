@@ -3,9 +3,10 @@ import { removeTokenCookie } from 'lib/cookies'
 import { verifyToken } from 'lib/utils'
 
 export async function logout(req, res) {
+   console.log('Nenad')
+   const token = req.cookies.token
+   console.log({ token })
    try {
-      const token = req.cookies.token
-      console.log({ token })
       if (!token) {
          return res.status(401).json({ message: 'User is not logged in' })
       }
