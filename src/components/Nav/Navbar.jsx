@@ -10,7 +10,6 @@ const NavBar = () => {
    const [showDropdown, setShowDropdown] = useState(false)
    const [username, setUsername] = useState('')
    const [didToken, setDidToken] = useState('')
-   console.log({ didToken })
 
    const router = useRouter()
 
@@ -58,7 +57,7 @@ const NavBar = () => {
             },
          })
 
-         await response.json()
+         const res = await response.json()
       } catch (err) {
          console.error('Error logging out', err)
          router.push('/login')
