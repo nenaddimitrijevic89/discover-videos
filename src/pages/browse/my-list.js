@@ -5,7 +5,7 @@ import styles from 'styles/MyList.module.css'
 import { getMyList } from 'lib/videos'
 import { useUser as userInfo } from 'hooks/useRedirectUser'
 
-import NavBar from 'components/nav/navbar'
+import NavBar from 'components/Nav/Navbar'
 import SectionCards from 'components/Card/SectionCards'
 
 const MyList = ({ myListVideos }) => {
