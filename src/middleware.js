@@ -1,12 +1,21 @@
 import { NextResponse } from 'next/server'
 
-export function middleware(req, ev) {
-   console.log({ req, ev })
-   //check the token
-   //if token is valid
-   //|| if page is /login
-   return NextResponse.next()
+import { verifyToken } from 'lib/utils'
 
-   //if no token
-   //redirect to login
+export async function middleware(req, ev) {
+   const token = req ? req.cookies?.token : null
+   const userId = await verifyToken(token)
+   const { pathname } = req.nextUrl
+
+   if (pathname.includes('/api/login') || userId || pathname.includes('/static')) {
+      console.log('first')
+      return NextResponse.next()
+   }
+
+   if ((!token || !userId) && pathname !== '/login') {
+      console.log('second')
+      const url = req.nextUrl.clone()
+      url.pathname = '/login'
+      // return NextResponse.rewrite(url)
+   }
 }
