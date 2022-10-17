@@ -1,6 +1,6 @@
 # Discover Videos
 
-Fullstack application written in Next.js. Implemented all Next.js data fetching features (Server-side Rendering, Static-site Generation, Incremental Static Regeneration), Middlewares and Serverless Functions. Deployed on Vercel. Hasura cloud used for GraphQl server and PostgresSQL used as DB.
+Fullstack application written in Next.js. Implemented all Next.js data fetching features (Server-side Rendering, Static-site Generation, Incremental Static Regeneration), Middlewares and Serverless Functions. Hasura cloud used for GraphQl server and PostgreSQL DB. Magic SDK is used for passwordless login and JWT for authentication. Data is fetched from external Youtube API.
 
 Demo: [Discover Videos](https://discover-videos-blush.vercel.app/)
 
