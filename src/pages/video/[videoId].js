@@ -73,9 +73,7 @@ const Video = ({ video }) => {
       setToggleLike(!toggleLike)
       setToggleDislike(toggleLike)
 
-      const response = await runRatingService(1)
-
-      console.log('like', await response.json())
+      await runRatingService(1)
    }
 
    return (
